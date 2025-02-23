@@ -1,5 +1,6 @@
 import IntroHomePage from "../elements/homepage/Intro";
 import SecondIntro from "../elements/homepage/SecondIntro";
+import Benefit from "../elements/homepage/Benefit";
 import ImageChildren1 from "../assets/imgs/homepage/1.jpg";
 import ImageChildren6 from "../assets/imgs/homepage/6.jpg";
 
@@ -21,8 +22,8 @@ vệ bản thân mình."`;
       <div className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8">
         <SecondIntro img={ImageChildren6} content={secondPara} />
       </div>
-      <div className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8">
-        
+      <div className="mx-auto flex flex-col max-w-7xl items-center justify-between p-6 lg:px-8">
+        <Benefit />
       </div>
     </div>
   );
