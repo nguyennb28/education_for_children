@@ -1,6 +1,7 @@
 import IntroHomePage from "../elements/homepage/Intro";
 import SecondIntro from "../elements/homepage/SecondIntro";
 import Benefit from "../elements/homepage/Benefit";
+import StartNow from "../elements/homepage/StartNow";
 import ImageChildren1 from "../assets/imgs/homepage/1.jpg";
 import ImageChildren6 from "../assets/imgs/homepage/6.jpg";
 
@@ -24,6 +25,9 @@ vệ bản thân mình."`;
       </div>
       <div className="mx-auto flex flex-col max-w-7xl items-center justify-between p-6 lg:px-8">
         <Benefit />
+      </div>
+      <div className="mx-auto flex flex-col max-w-7xl items-center justify-between p-6 lg:px-8">
+        <StartNow />
       </div>
     </div>
   );

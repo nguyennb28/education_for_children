@@ -5,6 +5,7 @@ import "./index.css";
 import App from "./App.jsx";
 import Header from "./components/Header.jsx";
 import HomePage from "./pages/HomePage.jsx";
+import Footer from "./components/Footer.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
@@ -13,6 +14,7 @@ createRoot(document.getElementById("root")).render(
       <Routes>
         <Route path="/" element={<HomePage />}/>
       </Routes>
+      <Footer />
     </Router>
   </StrictMode>
 );
