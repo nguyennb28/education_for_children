@@ -45,7 +45,7 @@ const LoginForm = () => {
           <p className="mt-10 text-center text-sm/6 text-gray-500">
             Chưa có tài khoản?{" "}
             <Link
-              to=""
+              to="/register"
               className="font-semibold text-indigo-600 hover:text-indigo-500"
             >
               Đăng ký ngay

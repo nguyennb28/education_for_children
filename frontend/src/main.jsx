@@ -7,6 +7,7 @@ import Header from "./components/Header.jsx";
 import HomePage from "./pages/HomePage.jsx";
 import Footer from "./components/Footer.jsx";
 import LoginPage from "./pages/LoginPage.jsx";
+import RegisterPage from "./pages/RegisterPage.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
@@ -15,6 +16,7 @@ createRoot(document.getElementById("root")).render(
       <Routes>
         <Route path="/" element={<HomePage />}/>
         <Route path="login" element={<LoginPage />}/>
+        <Route path="register" element={<RegisterPage />}/>
       </Routes>
       <Footer />
     </Router>

@@ -1,4 +1,5 @@
 import ImageChildren5 from "../../assets/imgs/homepage/5.jpg";
+import { Link } from "react-router-dom"
 
 const StartNow = () => {
   return (
@@ -7,12 +8,12 @@ const StartNow = () => {
         <img src={ImageChildren5} className="" alt="Trẻ em" />
       </div>
       <div>
-        <button
+        <Link to="/login"
           type="button"
           className="w-64 h-16 text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-xl px-5 py-2.5 text-center mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-purple-900"
         >
           Học ngay tại đây
-        </button>
+        </Link>
       </div>
     </div>
   );
