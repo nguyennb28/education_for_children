@@ -6,6 +6,7 @@ import App from "./App.jsx";
 import Header from "./components/Header.jsx";
 import HomePage from "./pages/HomePage.jsx";
 import Footer from "./components/Footer.jsx";
+import LoginPage from "./pages/LoginPage.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
@@ -13,6 +14,7 @@ createRoot(document.getElementById("root")).render(
       <Header />
       <Routes>
         <Route path="/" element={<HomePage />}/>
+        <Route path="login" element={<LoginPage />}/>
       </Routes>
       <Footer />
     </Router>
