@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 const LoginForm = () => {
   return (
     <>
@@ -36,10 +38,19 @@ const LoginForm = () => {
           </div>
           <button
             type="submit"
-            className="w-full bg-indigo-600 text-white py-3 rounded hover:bg-indigo-700 transition duration-200"
+            className="w-full bg-blue-600 text-white py-3 rounded hover:bg-blue-700 transition duration-200"
           >
             Đăng nhập
           </button>
+          <p className="mt-10 text-center text-sm/6 text-gray-500">
+            Chưa có tài khoản?{" "}
+            <Link
+              to=""
+              className="font-semibold text-indigo-600 hover:text-indigo-500"
+            >
+              Đăng ký ngay
+            </Link>
+          </p>
         </form>
       </div>
     </>

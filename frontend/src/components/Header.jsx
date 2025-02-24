@@ -140,21 +140,17 @@ export default function Example() {
             </PopoverPanel>
           </Popover> */}
 
-          {/* <a href="#" className="text-sm/6 font-semibold text-gray-900">
+          <Link to="/" className="text-sm/6 font-semibold text-gray-900">
             Về chúng tôi
-          </a> */}
-          <Link to="/" className="text-sm/6 font-semibold text-gray-900">Về chúng tôi</Link>
-          <a href="#" className="text-sm/6 font-semibold text-gray-900">
+          </Link>
+          <Link to="" className="text-sm/6 font-semibold text-gray-900">
             Phương pháp học
-          </a>
-          <a href="#" className="text-sm/6 font-semibold text-gray-900">
+          </Link>
+          <Link to="" className="text-sm/6 font-semibold text-gray-900">
             Liên hệ
-          </a>
+          </Link>
         </PopoverGroup>
         <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-          {/* <a href="#" className="text-sm/6 font-semibold text-gray-900">
-            Đăng nhập <span aria-hidden="true">&rarr;</span>
-          </a> */}
           <Link to="/login" className="text-sm/6 font-semibold text-gray-900">
             Đăng nhập <span aria-hidden="true">&rarr;</span>
           </Link>
@@ -206,32 +202,32 @@ export default function Example() {
                     ))}
                   </DisclosurePanel>
                 </Disclosure> */}
-                <a
-                  href="#"
+                <Link
+                  to="/"
                   className="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50"
                 >
                   Về chúng tôi
-                </a>
-                <a
-                  href="#"
+                </Link>
+                <Link
+                  to=""
                   className="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50"
                 >
                   Phương pháp học
-                </a>
-                <a
-                  href="#"
+                </Link>
+                <Link
+                  to=""
                   className="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50"
                 >
                   Liên hệ
-                </a>
+                </Link>
               </div>
               <div className="py-6">
-                <a
-                  href="#"
+                <Link
+                  to="/login"
                   className="-mx-3 block rounded-lg px-3 py-2.5 text-base/7 font-semibold text-gray-900 hover:bg-gray-50"
                 >
                   Đăng nhập
-                </a>
+                </Link>
               </div>
             </div>
           </div>
