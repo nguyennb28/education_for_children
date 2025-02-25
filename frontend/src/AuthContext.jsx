@@ -8,7 +8,7 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (username, password) => {
     try {
-      const tokenData = await axiosInstance.post("/token/", {
+      const {data: tokenData} = await axiosInstance.post("/token/", {
         username,
         password,
       });

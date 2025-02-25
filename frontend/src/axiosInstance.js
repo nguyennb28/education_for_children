@@ -1,7 +1,9 @@
 import axios from "axios";
 
+const REST_API_URL="http://localhost:8991"
+
 const axiosInstance = axios.create({
-  baseURL: `${import.meta.env.REST_API_URL}/api`,
+  baseURL: `${REST_API_URL}/api`,
   headers: {
     "Content-Type": "application/json",
   },

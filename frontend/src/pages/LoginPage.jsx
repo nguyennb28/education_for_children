@@ -1,6 +1,22 @@
 import ImageChildren8 from "../assets/imgs/homepage/8.jpg";
 import LoginForm from "../elements/loginpage/LoginForm";
+import React from "react";
+import { useAuth } from "../AuthContext";
+import { useNavigate } from "react-router-dom";
+
 const LoginPage = () => {
+  const { login } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogin = async (username, password) => {
+    try {
+      await login(username, password);
+      navigate("/");
+    } catch (error) {
+      console.error("Login failed", error);
+    }
+  };
+
   return (
     <div className="loginPage">
       <div className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8">
@@ -10,7 +26,7 @@ const LoginPage = () => {
             <img src={ImageChildren8} alt="Trẻ em" />
           </div>
           {/*  */}
-          <LoginForm />
+          <LoginForm onLogin={handleLogin}/>
           {/*  */}
         </div>
       </div>
