@@ -1,10 +1,22 @@
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
-const LoginForm = () => {
+const LoginForm = ({ onLogin }) => {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    onLogin(username, password);
+  };
+
   return (
     <>
       <div className="flex items-center justify-center p-6">
-        <form className="bg-white rounded-lg shadow-lg p-8 w-full max-w-md">
+        <form
+          onSubmit={handleSubmit}
+          className="bg-white rounded-lg shadow-lg p-8 w-full max-w-md"
+        >
           <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">
             Đăng nhập
           </h2>
@@ -20,6 +32,8 @@ const LoginForm = () => {
               id="username"
               placeholder="Nhập tài khoản / số điện thoại"
               className="w-full px-4 py-3 border border-gray-300 rounded focus:outline-none focus:border-indigo-500"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
             />
           </div>
           <div className="mb-6">
@@ -34,6 +48,8 @@ const LoginForm = () => {
               id="password"
               placeholder="Nhập mật khẩu"
               className="w-full px-4 py-3 border border-gray-300 rounded focus:outline-none focus:border-indigo-500"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
             />
           </div>
           <button
