@@ -25,7 +25,7 @@ const LoginForm = ({ onLogin }) => {
               className="block text-gray-700 mb-2 text-left"
               htmlFor="username"
             >
-              Tài khoản / Số điện thoại
+              Tài khoản
             </label>
             <input
               type="text"
