@@ -3,9 +3,10 @@ import LoginForm from "../elements/loginpage/LoginForm";
 import React from "react";
 import { useAuth } from "../AuthContext";
 import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 const LoginPage = () => {
-  const { login } = useAuth();
+  const { user, login } = useAuth();
   const navigate = useNavigate();
 
   const handleLogin = async (username, password) => {
@@ -13,9 +14,15 @@ const LoginPage = () => {
       await login(username, password);
       navigate("/");
     } catch (error) {
-      console.error("Login failed", error);
+      console.error("Đăng nhập không thành công", error);
     }
   };
+
+  useEffect(() => {
+    if (user) {
+      navigate("/", { replace: true });
+    }
+  }, [user, navigate]);
 
   return (
     <div className="loginPage">
@@ -26,7 +33,7 @@ const LoginPage = () => {
             <img src={ImageChildren8} alt="Trẻ em" />
           </div>
           {/*  */}
-          <LoginForm onLogin={handleLogin}/>
+          <LoginForm onLogin={handleLogin} />
           {/*  */}
         </div>
       </div>
