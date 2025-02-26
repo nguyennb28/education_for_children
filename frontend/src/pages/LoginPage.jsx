@@ -2,10 +2,11 @@ import ImageChildren8 from "../assets/imgs/homepage/8.jpg";
 import LoginForm from "../elements/loginpage/LoginForm";
 import React from "react";
 import { useAuth } from "../AuthContext";
-import { useNavigate } from "react-router-dom";
+import { replace, useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 const LoginPage = () => {
-  const { login } = useAuth();
+  const { user, login } = useAuth();
   const navigate = useNavigate();
 
   const handleLogin = async (username, password) => {
@@ -17,6 +18,12 @@ const LoginPage = () => {
     }
   };
 
+  useEffect(() => {
+    if (user) {
+      navigate("/", { replace: true });
+    }
+  }, [user, navigate]);
+
   return (
     <div className="loginPage">
       <div className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8">
@@ -26,7 +33,7 @@ const LoginPage = () => {
             <img src={ImageChildren8} alt="Trẻ em" />
           </div>
           {/*  */}
-          <LoginForm onLogin={handleLogin}/>
+          <LoginForm onLogin={handleLogin} />
           {/*  */}
         </div>
       </div>
