@@ -8,14 +8,19 @@ import { Cog6ToothIcon } from "@heroicons/react/24/outline";
 const ProfilePage = () => {
   const [update, setUpdate] = useState(false);
 
-  const { user } = useAuth();
+  const { user, userLoading } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!user) {
+    /*
+      check loading is false and user loaded 
+      if user is null return login 
+      else still here
+    */
+    if (!userLoading && !user) {
       navigate("/login", { replace: true });
     }
-  }, [user, navigate]);
+  }, [user, userLoading, navigate]);
 
   return (
     <div className="profilePage">
