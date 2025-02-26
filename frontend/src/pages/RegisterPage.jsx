@@ -18,7 +18,9 @@ const RegisterPage = () => {
         full_name: fullname,
       };
       const response = await axiosInstance.post("/users/", payload);
-      navigate("/login");
+      if (response.data) {
+        navigate("/login");
+      }
     } catch (error) {
       console.error(`Đăng ký tài khoản không thành công ${error}`);
     }
