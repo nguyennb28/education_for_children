@@ -34,6 +34,7 @@ import HomePage from "./pages/HomePage.jsx";
 import Footer from "./components/Footer.jsx";
 import LoginPage from "./pages/LoginPage.jsx";
 import RegisterPage from "./pages/RegisterPage.jsx";
+import ProfilePage from "./pages/ProfilePage.jsx";
 import { AuthProvider } from "./AuthContext"; // Import AuthProvider (đường dẫn tùy thuộc vào cấu trúc dự án)
 
 createRoot(document.getElementById("root")).render(
@@ -45,6 +46,7 @@ createRoot(document.getElementById("root")).render(
           <Route path="/" element={<HomePage />} />
           <Route path="login" element={<LoginPage />} />
           <Route path="register" element={<RegisterPage />} />
+          <Route path="profile" element={<ProfilePage />} />
         </Routes>
         <Footer />
       </Router>

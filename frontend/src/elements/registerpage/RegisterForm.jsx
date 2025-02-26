@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const RegisterForm = () => {
+const RegisterForm = ({ onRegister }) => {
   const [username, setUsername] = useState("");
   const [phone, setPhone] = useState("");
   const [fullname, setFullname] = useState("");
@@ -8,11 +8,12 @@ const RegisterForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-  }
+    onRegister(username,phone, password, fullname)
+  };
 
   return (
     <div className="flex items-center justify-center p-6">
-      <form className="bg-white rounded-lg shadow-lg p-8 w-full max-w-md">
+      <form onSubmit={handleSubmit} className="bg-white rounded-lg shadow-lg p-8 w-full max-w-md">
         <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">
           Đăng ký
         </h2>

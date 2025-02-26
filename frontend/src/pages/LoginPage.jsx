@@ -14,7 +14,7 @@ const LoginPage = () => {
       await login(username, password);
       navigate("/");
     } catch (error) {
-      console.error("Login failed", error);
+      console.error("Đăng nhập không thành công", error);
     }
   };
 
