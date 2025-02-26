@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useState, useEffect } from "react";
 import axiosInstance from "./axiosInstance";
 
 const AuthContext = createContext();
@@ -8,7 +8,7 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (username, password) => {
     try {
-      const {data: tokenData} = await axiosInstance.post("/token/", {
+      const { data: tokenData } = await axiosInstance.post("/token/", {
         username,
         password,
       });
@@ -16,9 +16,9 @@ export const AuthProvider = ({ children }) => {
       localStorage.setItem("access", access);
       localStorage.setItem("refresh", refresh);
 
-      const userData = await axiosInstance.get("/users/me/");
+      const { data: userData } = await axiosInstance.get("/users/me/");
       setUser(userData);
-      return { access, refresh, user: userData}
+      return { access, refresh, user: userData };
     } catch (error) {
       throw new Error(error.response?.data?.message || "Đăng nhập thất bại");
     }
@@ -29,6 +29,21 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem("access");
     localStorage.removeItem("refresh");
   };
+
+  useEffect(() => {
+    const access = localStorage.getItem("access");
+    if (access) {
+      axiosInstance
+        .get(`/users/me/`)
+        .then((response) => {
+          setUser(response.data);
+        })
+        .catch((error) => {
+          console.error(`Failed to fetch user data: ${error}`);
+          logout();
+        });
+    }
+  }, []);
 
   const value = { user, login, logout };
 

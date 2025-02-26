@@ -28,46 +28,12 @@ import {
 } from "@heroicons/react/20/solid";
 
 import { Link } from "react-router-dom";
-
-const products = [
-  {
-    name: "Analytics",
-    description: "Get a better understanding of your traffic",
-    href: "#",
-    icon: ChartPieIcon,
-  },
-  {
-    name: "Engagement",
-    description: "Speak directly to your customers",
-    href: "#",
-    icon: CursorArrowRaysIcon,
-  },
-  {
-    name: "Security",
-    description: "Your customers’ data will be safe and secure",
-    href: "#",
-    icon: FingerPrintIcon,
-  },
-  {
-    name: "Integrations",
-    description: "Connect with third-party tools",
-    href: "#",
-    icon: SquaresPlusIcon,
-  },
-  {
-    name: "Automations",
-    description: "Build strategic funnels that will convert",
-    href: "#",
-    icon: ArrowPathIcon,
-  },
-];
-const callsToAction = [
-  { name: "Watch demo", href: "#", icon: PlayCircleIcon },
-  { name: "Contact sales", href: "#", icon: PhoneIcon },
-];
+import { useAuth } from "../AuthContext";
 
 export default function Example() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  const { user, logout } = useAuth();
 
   return (
     <header className="bg-white">
@@ -96,6 +62,7 @@ export default function Example() {
           </button>
         </div>
         <PopoverGroup className="hidden lg:flex lg:gap-x-12">
+          { user ? (<p className="text-sm/6 font-semibold text-gray-900">Xin chào {user.full_name} 🤩🤩</p>): ""}
           <Link to="/" className="text-sm/6 font-semibold text-gray-900">
             Về chúng tôi
           </Link>
@@ -107,9 +74,19 @@ export default function Example() {
           </Link>
         </PopoverGroup>
         <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-          <Link to="/login" className="text-sm/6 font-semibold text-gray-900">
-            Đăng nhập <span aria-hidden="true">&rarr;</span>
-          </Link>
+          {user ? (
+            <Link
+              to="/login"
+              onClick={logout}
+              className="text-sm/6 font-semibold text-gray-900"
+            >
+              Đăng xuất
+            </Link>
+          ) : (
+            <Link to="/login" className="text-sm/6 font-semibold text-gray-900">
+              Đăng nhập <span aria-hidden="true">&rarr;</span>
+            </Link>
+          )}
         </div>
       </nav>
       <Dialog
