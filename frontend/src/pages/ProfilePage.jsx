@@ -3,13 +3,36 @@ import UpdateInfo from "../elements/profilepage/UpdateInfo";
 import { useAuth } from "../AuthContext";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Cog6ToothIcon } from "@heroicons/react/24/outline";
+import { Cog6ToothIcon, ArrowUturnLeftIcon } from "@heroicons/react/24/outline";
+import axiosInstance from "../axiosInstance";
 
 const ProfilePage = () => {
   const [update, setUpdate] = useState(false);
 
   const { user, userLoading } = useAuth();
   const navigate = useNavigate();
+
+  const handleUpdate = async (full_name, phone, role, password) => {
+    try {
+      console.log(full_name);
+      const payload = {
+        full_name,
+        phone,
+        ...(password ? { password } : {}),
+        ...(role ? { role } : {}),
+      };
+      const response = await axiosInstance.patch(
+        `/users/${user?.id}/`,
+        payload
+      );
+      if (response.status) {
+        alert("Cập nhật thông tin thành công");
+        setUpdate(false);
+      }
+    } catch (error) {
+      console.error(`Cập nhật thông tin tài khoản không thành công ${error}`);
+    }
+  };
 
   useEffect(() => {
     /*
@@ -39,7 +62,18 @@ const ProfilePage = () => {
             </div>
           </>
         ) : (
-          <></>
+          <>
+            <UpdateInfo user={user} onUpdate={handleUpdate} />
+            <div className="p-2">
+              <button
+                className="cursor-pointer"
+                onClick={(e) => setUpdate(!update)}
+                title="Trở về"
+              >
+                <ArrowUturnLeftIcon className="size-6" />
+              </button>
+            </div>
+          </>
         )}
       </div>
     </div>
