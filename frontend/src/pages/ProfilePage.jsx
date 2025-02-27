@@ -9,7 +9,7 @@ import axiosInstance from "../axiosInstance";
 const ProfilePage = () => {
   const [update, setUpdate] = useState(false);
 
-  const { user, userLoading } = useAuth();
+  const { user, userLoading, setUser } = useAuth();
   const navigate = useNavigate();
 
   const handleUpdate = async (full_name, phone, role, password) => {
@@ -27,6 +27,7 @@ const ProfilePage = () => {
       );
       if (response.status) {
         alert("Cập nhật thông tin thành công");
+        setUser(response.data);
         setUpdate(false);
       }
     } catch (error) {
