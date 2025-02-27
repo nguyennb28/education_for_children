@@ -4,10 +4,33 @@ import { Link } from "react-router-dom";
 const LoginForm = ({ onLogin }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [errors, setErrors] = useState({});
 
-  const handleSubmit = (e) => {
+  const validate = () => {
+    const errors = {};
+    if (!username.trim()) {
+      errors.username = "Tài khoản không được để trống !";
+    }
+    if (!password.trim()) {
+      errors.password = "Mật khẩu không được để trống !";
+    }
+    return errors;
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    onLogin(username, password);
+    const errorsFound = validate();
+    if (Object.keys(errorsFound).length > 0) {
+      setErrors(errorsFound);
+      alert("Thông tin đăng nhập có vấn đề");
+      return;
+    }
+    setErrors({});
+    try {
+      await onLogin(username, password);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
@@ -35,6 +58,11 @@ const LoginForm = ({ onLogin }) => {
               value={username}
               onChange={(e) => setUsername(e.target.value)}
             />
+            {errors.username && (
+              <p className="text-left text-red-500 text-sm">
+                {errors.username}
+              </p>
+            )}
           </div>
           <div className="mb-6">
             <label
@@ -51,6 +79,11 @@ const LoginForm = ({ onLogin }) => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
+            {errors.password && (
+              <p className="text-left text-red-500 text-sm">
+                {errors.password}
+              </p>
+            )}
           </div>
           <button
             type="submit"
