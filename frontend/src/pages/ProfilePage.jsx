@@ -14,7 +14,6 @@ const ProfilePage = () => {
 
   const handleUpdate = async (full_name, phone, role, password) => {
     try {
-      console.log(full_name);
       const payload = {
         full_name,
         phone,
