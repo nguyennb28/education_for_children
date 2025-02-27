@@ -1,9 +1,8 @@
 import ImageChildren8 from "../assets/imgs/homepage/8.jpg";
 import LoginForm from "../elements/loginpage/LoginForm";
-import React from "react";
 import { useAuth } from "../AuthContext";
 import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 
 const LoginPage = () => {
   const { user, login } = useAuth();

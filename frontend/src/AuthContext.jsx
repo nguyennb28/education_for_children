@@ -5,6 +5,7 @@ const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+  const [userLoading, setUserloading] = useState(true);
 
   const login = async (username, password) => {
     try {
@@ -37,15 +38,19 @@ export const AuthProvider = ({ children }) => {
         .get(`/users/me/`)
         .then((response) => {
           setUser(response.data);
+          setUserloading(false);
         })
         .catch((error) => {
           console.error(`Failed to fetch user data: ${error}`);
           logout();
+          setUserloading(false);
         });
+    } else {
+      setUserloading(false);
     }
   }, []);
 
-  const value = { user, login, logout };
+  const value = { user, login, logout, userLoading, setUser };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
