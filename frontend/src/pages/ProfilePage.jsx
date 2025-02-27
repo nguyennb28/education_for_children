@@ -31,6 +31,7 @@ const ProfilePage = () => {
       }
     } catch (error) {
       console.error(`Cập nhật thông tin tài khoản không thành công ${error}`);
+      throw error;
     }
   };
 

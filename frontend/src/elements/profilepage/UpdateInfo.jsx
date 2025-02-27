@@ -25,7 +25,7 @@ const UpdateInfo = ({ user, onUpdate }) => {
     return errors;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const errorsFound = validate();
     if (Object.keys(errorsFound).length > 0) {
@@ -34,7 +34,13 @@ const UpdateInfo = ({ user, onUpdate }) => {
       return;
     }
     setErrors({});
-    onUpdate(full_name, phone.trim(), role, password);
+    try {
+      await onUpdate(full_name, phone.trim(), role, password);
+    } catch (err) {
+      if (err.response && err.response.data) {
+        setErrors((prev) => ({ ...prev, ...err.response.data }));
+      }
+    }
   };
 
   return (

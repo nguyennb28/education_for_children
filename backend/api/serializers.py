@@ -3,6 +3,10 @@ from .models import User
 
 
 class UserSerializer(serializers.ModelSerializer):
+
+    # remove validator default
+    phone = serializers.CharField(validators=[])
+
     class Meta:
         model = User
         fields = ["id", "username", "phone", "full_name", "role", "password"]
@@ -24,3 +28,15 @@ class UserSerializer(serializers.ModelSerializer):
             instance.set_password(password)
         instance.save()
         return instance
+
+    # Check phone is unique
+    def validate_phone(self, value):
+        # Nếu update và số điện thoại không đổi, bỏ qua validation
+        if self.instance and self.instance.phone == value:
+            return value
+        # Nếu tồn tại user khác với số điện thoại này, raise error
+        if User.objects.filter(phone=value).exists():
+            raise serializers.ValidationError(
+                "Số điện thoại đã tồn tại, vui lòng sử dụng số khác."
+            )
+        return value
