@@ -29,7 +29,13 @@ const LoginForm = ({ onLogin }) => {
     try {
       await onLogin(username, password);
     } catch (err) {
-      console.log(err);
+      if (err.message) {
+        alert("Tài khoản hoặc mật khẩu không chính xác!");
+        setErrors((prev) => ({
+          ...prev,
+          message: "Tài khoản hoặc mật khẩu không chính xác",
+        }));
+      }
     }
   };
 
@@ -63,6 +69,9 @@ const LoginForm = ({ onLogin }) => {
                 {errors.username}
               </p>
             )}
+            {errors.message && (
+              <p className="text-left text-red-500 text-sm">{errors.message}</p>
+            )}
           </div>
           <div className="mb-6">
             <label
@@ -83,6 +92,9 @@ const LoginForm = ({ onLogin }) => {
               <p className="text-left text-red-500 text-sm">
                 {errors.password}
               </p>
+            )}
+            {errors.message && (
+              <p className="text-left text-red-500 text-sm">{errors.message}</p>
             )}
           </div>
           <button

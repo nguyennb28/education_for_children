@@ -21,7 +21,7 @@ export const AuthProvider = ({ children }) => {
       setUser(userData);
       return { access, refresh, user: userData };
     } catch (error) {
-      throw new Error(error.response?.data?.message || "Đăng nhập thất bại");
+      throw new Error(error.response?.data?.detail || "Đăng nhập thất bại");
     }
   };
 
