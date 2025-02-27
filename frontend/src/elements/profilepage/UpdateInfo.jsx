@@ -11,10 +11,30 @@ const UpdateInfo = ({ user, onUpdate }) => {
   const [full_name, setFullname] = useState(user?.full_name || "");
   const [role, setRole] = useState(user?.role || "");
   const [password, setPassword] = useState("");
+  const [errors, setErrors] = useState({});
+
+  const validate = () => {
+    const errors = {};
+    // check full_name is not empty
+    if (!full_name.trim()) {
+      errors.full_name = "Họ và tên không được để trống";
+    }
+    if (!/^\d{10}$/.test(phone.trim())) {
+      errors.phone = "Số điện thoại phải có đúng 10 chữ số";
+    }
+    return errors;
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onUpdate(full_name, phone, role, password);
+    const errorsFound = validate();
+    if (Object.keys(errorsFound).length > 0) {
+      setErrors(errorsFound);
+      alert("Thông tin cập nhật đang sai");
+      return;
+    }
+    setErrors({});
+    onUpdate(full_name, phone.trim(), role, password);
   };
 
   return (
@@ -51,6 +71,9 @@ const UpdateInfo = ({ user, onUpdate }) => {
           value={full_name}
           onChange={(e) => setFullname(e.target.value)}
         />
+        {errors.full_name && (
+          <p className="text-left text-red-500 text-sm">{errors.full_name}</p>
+        )}
       </div>
       <div className="mb-4">
         <label
@@ -66,6 +89,9 @@ const UpdateInfo = ({ user, onUpdate }) => {
           value={phone}
           onChange={(e) => setPhone(e.target.value)}
         />
+        {errors.phone && (
+          <p className="text-left text-red-500 text-sm">{errors.phone}</p>
+        )}
       </div>
       <div className="mb-4">
         <label
