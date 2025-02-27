@@ -23,6 +23,7 @@ const RegisterPage = () => {
       }
     } catch (error) {
       console.error(`Đăng ký tài khoản không thành công ${error}`);
+      throw error
     }
   };
 

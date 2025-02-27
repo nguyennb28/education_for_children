@@ -1,11 +1,12 @@
 from rest_framework import serializers
 from .models import User
+import re
 
 
 class UserSerializer(serializers.ModelSerializer):
 
     # remove validator default
-    phone = serializers.CharField(validators=[])
+    phone = serializers.CharField(validators=[], max_length=10)
 
     class Meta:
         model = User
@@ -31,6 +32,9 @@ class UserSerializer(serializers.ModelSerializer):
 
     # Check phone is unique
     def validate_phone(self, value):
+        value = value.strip()
+        if not re.fullmatch(r"\d{10}", value):
+            raise serializers.ValidationError("Số điện thoại phải gồm đúng 10 chữ số")
         # Nếu update và số điện thoại không đổi, bỏ qua validation
         if self.instance and self.instance.phone == value:
             return value
