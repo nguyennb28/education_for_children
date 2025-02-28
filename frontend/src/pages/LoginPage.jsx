@@ -13,7 +13,8 @@ const LoginPage = () => {
       await login(username, password);
       navigate("/");
     } catch (error) {
-      console.error("Đăng nhập không thành công", error);
+      console.error(error.message);
+      throw error
     }
   };
 
