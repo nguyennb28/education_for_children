@@ -45,6 +45,8 @@ class Chapter(models.Model):
     chapter_number = models.IntegerField()
     name = models.CharField(max_length=255)
     description = models.TextField(blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         ordering = ["chapter_number"]
@@ -62,6 +64,9 @@ class Lesson(models.Model):
     title = models.CharField(max_length=255)
     description = models.TextField(blank=True, null=True)
     video_url = models.URLField(blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now_add=True)
+
 
     class Meta:
         ordering = ["lesson_nubmer"]
@@ -83,6 +88,9 @@ class Question(models.Model):
     question_type = models.CharField(
         max_length=50, choices=QUESTION_TYPE_CHOICES, default="single_choice"
     )
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now_add=True)
+
 
     def __str__(self):
         return f"Câu hỏi: {self.question_text[:50]}"
@@ -103,6 +111,9 @@ class AnswerOption(models.Model):
     )
     answer_text = models.CharField(max_length=255)
     is_correct = models.BooleanField(default=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now_add=True)
+
 
     def __str__(self):
         return self.answer_text + (" (Đúng)" if self.is_correct else "")
@@ -117,6 +128,9 @@ class UserProgress(models.Model):
     quiz_score = models.FloatField(null=True, blank=True)
     start_time = models.DateTimeField(auto_now_add=True)
     end_time = models.DateTimeField(null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now_add=True)
+
 
     class Meta:
         unique_together = ("user", "lesson")
