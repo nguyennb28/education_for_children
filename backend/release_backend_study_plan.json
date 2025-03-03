@@ -1,0 +1,58 @@
+{
+    "Chapter": {
+      "description": "Chương học",
+      "fields": {
+        "id": "Auto-generated primary key (integer)",
+        "chapter_number": "Integer - Số thứ tự của chương học",
+        "name": "String - Tên chương (ví dụ: 'Chương 1: Khám phá cơ thể')",
+        "description": "String - Mô tả ngắn gọn về nội dung chương học"
+      },
+      "meta": {
+        "ordering": "chapter_number ASC"
+      }
+    },
+    "Lesson": {
+      "description": "Bài giảng thuộc chương học",
+      "fields": {
+        "id": "Auto-generated primary key (integer)",
+        "chapter": "ForeignKey - Liên kết đến Chapter",
+        "lesson_number": "Integer - Số thứ tự bài giảng trong một chương",
+        "title": "String - Tiêu đề bài giảng",
+        "description": "String - Mô tả ngắn gọn về bài giảng",
+        "video_url": "URL - Đường dẫn đến video bài giảng"
+      },
+      "meta": {
+        "ordering": "lesson_number ASC within each chapter"
+      }
+    },
+    "Question": {
+      "description": "Câu hỏi trắc nghiệm thuộc bài giảng",
+      "fields": {
+        "id": "Auto-generated primary key (integer)",
+        "lesson": "ForeignKey - Liên kết đến Lesson",
+        "question_text": "Text - Nội dung câu hỏi",
+        "question_type": "String - Loại câu hỏi (ví dụ: 'multiple_choice')"
+      }
+    },
+    "AnswerOption": {
+      "description": "Lựa chọn trả lời cho câu hỏi trắc nghiệm",
+      "fields": {
+        "id": "Auto-generated primary key (integer)",
+        "question": "ForeignKey - Liên kết đến Question",
+        "answer_text": "String - Nội dung lựa chọn trả lời",
+        "is_correct": "Boolean - Đánh dấu đúng sai"
+      }
+    },
+    "UserProgress": {
+      "description": "Tiến trình học tập của học sinh",
+      "fields": {
+        "id": "Auto-generated primary key (integer)",
+        "user": "ForeignKey - Liên kết đến User (model người dùng)",
+        "lesson": "ForeignKey - Liên kết đến Lesson",
+        "is_completed": "Boolean - Trạng thái hoàn thành bài học",
+        "quiz_score": "Float (nullable) - Điểm số của bài kiểm tra (nếu có)",
+        "start_time": "Datetime - Thời điểm bắt đầu học bài",
+        "end_time": "Datetime - Thời điểm hoàn thành bài học"
+      }
+    }
+  }
