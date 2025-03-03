@@ -1,0 +1,165 @@
+[
+    {
+      "model_name": "Chapter",
+      "fields": [
+        {
+          "field_name": "chapter_number",
+          "field_type": "IntegerField",
+          "description": "Số thứ tự của chương học (ví dụ: 1, 2, 3...). Sắp xếp thứ tự hiển thị chương.",
+          "notes": "unique=True (đảm bảo số chương là duy nhất), db_index=True (tối ưu truy vấn)"
+        },
+        {
+          "field_name": "name",
+          "field_type": "CharField",
+          "description": "Tên chương học (ví dụ: 'Chương 1: Cơ thể của bé', 'Chương 2: Vệ sinh thân thể'...).\n",
+          "notes": "max_length=255, db_index=True (tối ưu truy vấn theo tên chương)"
+        },
+        {
+          "field_name": "description",
+          "field_type": "TextField",
+          "description": "Mô tả ngắn gọn về nội dung chương học (tùy chọn).",
+          "notes": "blank=True (cho phép để trống), null=True (cho phép giá trị NULL trong CSDL)"
+        }
+      ]
+    },
+    {
+      "model_name": "Lesson",
+      "fields": [
+        {
+          "field_name": "chapter",
+          "field_type": "ForeignKey(Chapter)",
+          "description": "Khóa ngoại liên kết đến bảng `Chapter`. Bài giảng thuộc về chương nào.",
+          "notes": "on_delete=models.CASCADE (xóa bài giảng khi chương bị xóa), related_name='lessons' (cho phép truy cập bài giảng từ chapter qua `chapter.lessons.all()`), db_index=True (tối ưu truy vấn theo chương)"
+        },
+        {
+          "field_name": "lesson_number",
+          "field_type": "IntegerField",
+          "description": "Số thứ tự bài giảng trong chương (ví dụ: 1, 2, 3...). Sắp xếp thứ tự hiển thị bài giảng trong chương.",
+          "notes": "db_index=True (tối ưu truy vấn)"
+        },
+        {
+          "field_name": "title",
+          "field_type": "CharField",
+          "description": "Tiêu đề bài giảng (ví dụ: 'Bài 1.1: Các bộ phận cơ thể', 'Bài 1.2: Rửa tay đúng cách'...).\n",
+          "notes": "max_length=255, db_index=True (tối ưu truy vấn theo tên bài giảng)"
+        },
+        {
+          "field_name": "description",
+          "field_type": "TextField",
+          "description": "Mô tả ngắn gọn về nội dung bài giảng (tùy chọn).",
+          "notes": "blank=True, null=True"
+        },
+        {
+          "field_name": "video_url",
+          "field_type": "URLField",
+          "description": "Đường dẫn URL đến video bài giảng.",
+          "notes": "max_length=2000 (giới hạn độ dài URL, có thể tùy chỉnh), help_text='URL của video bài giảng (ví dụ: YouTube, Vimeo)' (ghi chú hữu ích trong admin)"
+        }
+      ]
+    },
+    {
+      "model_name": "Quiz",
+      "fields": [
+        {
+          "field_name": "lesson",
+          "field_type": "OneToOneField(Lesson)",
+          "description": "Quan hệ một-một với bảng `Lesson`. Mỗi bài giảng có **duy nhất một** bài kiểm tra.",
+          "notes": "on_delete=models.CASCADE (xóa quiz khi bài giảng bị xóa), related_name='quiz' (cho phép truy cập quiz từ lesson qua `lesson.quiz`), primary_key=True (Quiz ID trùng với Lesson ID)"
+        }
+      ]
+    },
+    {
+      "model_name": "Question",
+      "fields": [
+        {
+          "field_name": "quiz",
+          "field_type": "ForeignKey(Quiz)",
+          "description": "Khóa ngoại liên kết đến bảng `Quiz`. Câu hỏi thuộc về bài kiểm tra nào.",
+          "notes": "on_delete=models.CASCADE (xóa câu hỏi khi quiz bị xóa), related_name='questions' (cho phép truy cập câu hỏi từ quiz qua `quiz.questions.all()`), db_index=True (tối ưu truy vấn theo quiz)"
+        },
+        {
+          "field_name": "question_text",
+          "field_type": "TextField",
+          "description": "Nội dung câu hỏi trắc nghiệm.",
+          "notes": ""
+        },
+        {
+          "field_name": "option_1",
+          "field_type": "CharField",
+          "description": "Lựa chọn trả lời thứ nhất.",
+          "notes": "max_length=255"
+        },
+        {
+          "field_name": "option_2",
+          "field_type": "CharField",
+          "description": "Lựa chọn trả lời thứ hai.",
+          "notes": "max_length=255"
+        },
+        {
+          "field_name": "option_3",
+          "field_type": "CharField",
+          "description": "Lựa chọn trả lời thứ ba (tùy chọn).",
+          "notes": "max_length=255, blank=True, null=True"
+        },
+        {
+          "field_name": "option_4",
+          "field_type": "CharField",
+          "description": "Lựa chọn trả lời thứ tư (tùy chọn).",
+          "notes": "max_length=255, blank=True, null=True"
+        },
+        {
+          "field_name": "correct_answer",
+          "field_type": "IntegerField",
+          "description": "Chỉ số (index) của đáp án đúng. Ví dụ: 1 (option_1), 2 (option_2), 3 (option_3), 4 (option_4).",
+          "notes": "choices=[(1, 'Option 1'), (2, 'Option 2'), (3, 'Option 3'), (4, 'Option 4')] (giới hạn giá trị và hiển thị dễ hiểu trong admin)"
+        }
+      ]
+    },
+    {
+      "model_name": "UserProgress",
+      "fields": [
+        {
+          "field_name": "user",
+          "field_type": "ForeignKey(User)",
+          "description": "Khóa ngoại liên kết đến bảng `User` (model người dùng Django mặc định hoặc tùy chỉnh). Học sinh nào.",
+          "notes": "on_delete=models.CASCADE (xóa tiến trình khi người dùng bị xóa), related_name='user_progresses' (cho phép truy cập tiến trình từ user qua `user.user_progresses.all()`), db_index=True (tối ưu truy vấn theo user)"
+        },
+        {
+          "field_name": "lesson",
+          "field_type": "ForeignKey(Lesson)",
+          "description": "Khóa ngoại liên kết đến bảng `Lesson`. Bài giảng nào.",
+          "notes": "on_delete=models.CASCADE (xóa tiến trình khi bài giảng bị xóa), related_name='lesson_progresses' (cho phép truy cập tiến trình từ lesson qua `lesson.lesson_progresses.all()`), db_index=True (tối ưu truy vấn theo lesson)"
+        },
+        {
+          "field_name": "chapter",
+          "field_type": "ForeignKey(Chapter)",
+          "description": "Khóa ngoại liên kết đến bảng `Chapter`. Chương nào (để dễ dàng truy vấn tiến trình theo chương).",
+          "notes": "on_delete=models.CASCADE (xóa tiến trình khi chương bị xóa), related_name='chapter_progresses' (cho phép truy cập tiến trình từ chapter qua `chapter.chapter_progresses.all()`), db_index=True (tối ưu truy vấn theo chapter)"
+        },
+        {
+          "field_name": "is_completed",
+          "field_type": "BooleanField",
+          "description": "Bài giảng đã được học sinh xem video và đánh dấu hoàn thành chưa?",
+          "notes": "default=False, db_index=True (tối ưu truy vấn theo trạng thái hoàn thành)"
+        },
+        {
+          "field_name": "quiz_passed",
+          "field_type": "BooleanField",
+          "description": "Học sinh đã trả lời đúng **tất cả** các câu hỏi trong bài kiểm tra của bài giảng này chưa?",
+          "notes": "default=False, db_index=True (tối ưu truy vấn theo trạng thái qua bài kiểm tra)"
+        },
+        {
+          "field_name": "start_time",
+          "field_type": "DateTimeField",
+          "description": "Thời điểm học sinh bắt đầu học bài giảng.",
+          "notes": "auto_now_add=True (tự động thêm thời gian khi bản ghi được tạo)"
+        },
+        {
+          "field_name": "end_time",
+          "field_type": "DateTimeField",
+          "description": "Thời điểm học sinh hoàn thành bài giảng (tùy chọn, có thể null nếu chưa hoàn thành).",
+          "notes": "blank=True, null=True, auto_now=True (tự động cập nhật thời gian khi bản ghi được lưu - cần xem xét logic cập nhật end_time phù hợp)"
+        }
+      ]
+    }
+  ]
