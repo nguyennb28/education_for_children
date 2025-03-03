@@ -1,3 +1,7 @@
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../AuthContext";
+import axiosInstance from "../axiosInstance";
 import Card from "../components/Card";
 import ImageChildren2 from "../assets/imgs/homepage/2.jpg";
 import ImageChildren11 from "../assets/imgs/homepage/11.jpg";
@@ -7,6 +11,57 @@ import ImageChildren14 from "../assets/imgs/homepage/14.jpg";
 import ImageChildren15 from "../assets/imgs/homepage/15.jpg";
 
 const StudyPage = () => {
+  const { user, userLoading } = useAuth();
+  const [chapters, setChapters] = useState([]);
+  const navigate = useNavigate();
+
+  const getList = async () => {
+    try {
+      const response = await axiosInstance.get("/chapters/");
+      if (response.data) {
+        setChapters(response.data);
+      }
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  };
+
+  const images = [
+    ImageChildren2,
+    ImageChildren11,
+    ImageChildren12,
+    ImageChildren13,
+    ImageChildren14,
+    ImageChildren15,
+  ];
+
+  const randomImage = () => {
+    const randomIndex = Math.floor(Math.random() * images.length);
+    return images[randomIndex];
+  };
+
+  const renderListChapter = (items) => {
+    return items.map((item) => (
+      <Card
+        key={item.chapter_number}
+        image={randomImage()}
+        title={item.name}
+        description={""}
+      />
+    ));
+  };
+
+  useEffect(() => {
+    if (!userLoading && !user) {
+      navigate("/login", { replace: true });
+    }
+  }, [user, userLoading, navigate]);
+
+  useEffect(() => {
+    getList();
+  }, []);
+
   return (
     <div className="studyPage">
       <div className="mx-auto flex flex-col max-w-7xl items-center justify-between p-6 lg:px-8">
@@ -18,12 +73,7 @@ const StudyPage = () => {
       </div>
       <div className="flex max-w-7xl items-center justify-center p-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <Card image={ImageChildren2} title={"Chương 1."} description={""} />
-          <Card image={ImageChildren11} title={"Chương 2."} description={""} />
-          <Card image={ImageChildren12} title={"Chương 3."} description={""} />
-          <Card image={ImageChildren13} title={"Chương 4."} description={""} />
-          <Card image={ImageChildren14} title={"Chương 5."} description={""} />
-          <Card image={ImageChildren15} title={"Chương 6."} description={""} />
+          {chapters ? renderListChapter(chapters) : <></>}
         </div>
       </div>
     </div>
