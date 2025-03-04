@@ -8,8 +8,8 @@ import Footer from "./components/Footer.jsx";
 import LoginPage from "./pages/LoginPage.jsx";
 import RegisterPage from "./pages/RegisterPage.jsx";
 import ProfilePage from "./pages/ProfilePage.jsx";
+import ChaptersPage from "./pages/ChaptersPage.jsx";
 import ChapterPage from "./pages/ChapterPage.jsx";
-import LessonsPage from "./pages/LessonsPage.jsx";
 import { AuthProvider } from "./AuthContext"; // Import AuthProvider (đường dẫn tùy thuộc vào cấu trúc dự án)
 
 createRoot(document.getElementById("root")).render(
@@ -22,8 +22,8 @@ createRoot(document.getElementById("root")).render(
           <Route path="login" element={<LoginPage />} />
           <Route path="register" element={<RegisterPage />} />
           <Route path="profile" element={<ProfilePage />} />
-          <Route path="chapter" element={<ChapterPage />} />
-          <Route path="lessons/:id" element={<LessonsPage />} />
+          <Route path="chapters" element={<ChaptersPage />} />
+          <Route path="chapter/:id" element={<ChapterPage />} />
         </Routes>
         <Footer />
       </Router>
