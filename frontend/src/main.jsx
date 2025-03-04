@@ -23,7 +23,7 @@ createRoot(document.getElementById("root")).render(
           <Route path="register" element={<RegisterPage />} />
           <Route path="profile" element={<ProfilePage />} />
           <Route path="chapters" element={<ChaptersPage />} />
-          <Route path="chapter/:id" element={<ChapterPage />} />
+          <Route path="chapters/:id" element={<ChapterPage />} />
         </Routes>
         <Footer />
       </Router>

@@ -60,7 +60,7 @@ class Lesson(models.Model):
     chapter = models.ForeignKey(
         Chapter, on_delete=models.CASCADE, related_name="lessons"
     )
-    lesson_nubmer = models.IntegerField()
+    lesson_number = models.IntegerField()
     title = models.CharField(max_length=255)
     description = models.TextField(blank=True, null=True)
     video_url = models.URLField(blank=True, null=True)
@@ -69,10 +69,10 @@ class Lesson(models.Model):
 
 
     class Meta:
-        ordering = ["lesson_nubmer"]
+        ordering = ["lesson_number"]
 
     def __str__(self):
-        return f"Bài {self.lesson_nubmer}: {self.title}"
+        return f"Bài {self.lesson_number}: {self.title}"
 
 
 # Câu hỏi trắc nghiệm thuộc bài giảng

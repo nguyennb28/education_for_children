@@ -36,7 +36,7 @@ const ChaptersPage = () => {
     ImageChildren15,
   ];
 
-  const url = "/chapter"
+  const url = "/chapters"
 
   const randomImage = () => {
     const randomIndex = Math.floor(Math.random() * images.length);
@@ -71,7 +71,7 @@ const ChaptersPage = () => {
       <div className="mx-auto flex flex-col max-w-7xl items-center justify-between p-6 lg:px-8">
         <div className="title">
           <h1 className="text-center font-semibold text-2xl uppercase">
-            Các bài giảng
+            Các chương
           </h1>
         </div>
       </div>
