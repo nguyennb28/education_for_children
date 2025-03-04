@@ -50,7 +50,7 @@ class ChapterSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Chapter
-        fields = ["chapter_number", "name", "description"]
+        fields = ["id", "chapter_number", "name", "description"]
 
 
 class LessonSerializer(serializers.ModelSerializer):

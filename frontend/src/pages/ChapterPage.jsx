@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../AuthContext";
 import axiosInstance from "../axiosInstance";
-import Card from "../components/Card";
+import CardLink from "../components/CardLink";
 import ImageChildren2 from "../assets/imgs/homepage/2.jpg";
 import ImageChildren11 from "../assets/imgs/homepage/11.jpg";
 import ImageChildren12 from "../assets/imgs/homepage/12.jpg";
@@ -10,7 +10,7 @@ import ImageChildren13 from "../assets/imgs/homepage/13.jpg";
 import ImageChildren14 from "../assets/imgs/homepage/14.jpg";
 import ImageChildren15 from "../assets/imgs/homepage/15.jpg";
 
-const StudyPage = () => {
+const ChapterPage = () => {
   const { user, userLoading } = useAuth();
   const [chapters, setChapters] = useState([]);
   const navigate = useNavigate();
@@ -36,6 +36,8 @@ const StudyPage = () => {
     ImageChildren15,
   ];
 
+  const url = "/lessons"
+
   const randomImage = () => {
     const randomIndex = Math.floor(Math.random() * images.length);
     return images[randomIndex];
@@ -43,10 +45,12 @@ const StudyPage = () => {
 
   const renderListChapter = (items) => {
     return items.map((item) => (
-      <Card
+      <CardLink
         key={item.chapter_number}
+        id={item.id}
         image={randomImage()}
-        title={item.name}
+        url={url}
+        title={`Chương ${item.chapter_number} - ${item.name}`}
         description={""}
       />
     ));
@@ -80,4 +84,4 @@ const StudyPage = () => {
   );
 };
 
-export default StudyPage;
+export default ChapterPage;
