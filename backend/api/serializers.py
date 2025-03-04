@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import User
+from .models import User, Chapter, Lesson, Question, AnswerOption, UserProgress
 import re
 
 
@@ -44,3 +44,19 @@ class UserSerializer(serializers.ModelSerializer):
                 "Số điện thoại đã tồn tại, vui lòng sử dụng số khác."
             )
         return value
+
+
+class LessonSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Lesson
+        fields = ["id", "chapter", "lesson_number", "title", "description", "video_url"]
+
+
+class ChapterSerializer(serializers.ModelSerializer):
+
+    lessons = LessonSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Chapter
+        fields = ["id", "chapter_number", "name", "description", "lessons"]

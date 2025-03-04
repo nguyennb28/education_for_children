@@ -67,10 +67,20 @@ export default function Example() {
               to="/profile"
               className="text-sm/6 font-semibold text-gray-900"
             >
-              Xin chào {user.full_name} 🤩🤩
+              Xin chào {user.full_name} ✨✨
             </Link>
           ) : (
-            ""
+            <></>
+          )}
+          {user ? (
+            <Link
+              to="/chapters"
+              className="text-sm/6 font-semibold text-gray-900"
+            >
+              Học tập 📖
+            </Link>
+          ) : (
+            <></>
           )}
           <Link to="/" className="text-sm/6 font-semibold text-gray-900">
             Về chúng tôi
@@ -131,10 +141,20 @@ export default function Example() {
                     to="/profile"
                     className="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50"
                   >
-                    Xin chào {user.full_name} 🤩🤩
+                    Xin chào {user.full_name} ✨✨
                   </Link>
                 ) : (
-                  ""
+                  <></>
+                )}
+                {user ? (
+                  <Link
+                    to="/chapters"
+                    className="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50"
+                  >
+                    Học tập 📖
+                  </Link>
+                ) : (
+                  <></>
                 )}
                 <Link
                   to="/"
