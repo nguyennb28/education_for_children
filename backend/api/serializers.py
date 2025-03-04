@@ -46,15 +46,17 @@ class UserSerializer(serializers.ModelSerializer):
         return value
 
 
-class ChapterSerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = Chapter
-        fields = ["id", "chapter_number", "name", "description"]
-
-
 class LessonSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Lesson
-        fields = ["lesson_number", "title", "description", "video_url"]
+        fields = ["id", "chapter", "lesson_nubmer", "title", "description", "video_url"]
+
+
+class ChapterSerializer(serializers.ModelSerializer):
+
+    lessons = LessonSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Chapter
+        fields = ["id", "chapter_number", "name", "description", "lessons"]

@@ -1,5 +1,5 @@
 from rest_framework import viewsets
-from .models import User, Chapter
+from .models import User, Chapter, Lesson
 from .serializers import UserSerializer, ChapterSerializer, LessonSerializer
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.decorators import action
@@ -24,4 +24,10 @@ class UserViewSet(viewsets.ModelViewSet):
 class ChapterViewSet(viewsets.ModelViewSet):
     queryset = Chapter.objects.all()
     serializer_class = ChapterSerializer
+    permission_classes = [IsAuthenticated]
+
+
+class LessonViewSet(viewsets.ModelViewSet):
+    queryset = Lesson.objects.all()
+    serializer_class = LessonSerializer
     permission_classes = [IsAuthenticated]
