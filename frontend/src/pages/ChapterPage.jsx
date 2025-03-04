@@ -67,7 +67,7 @@ const ChapterPage = () => {
   }, []);
 
   return (
-    <div className="studyPage">
+    <div className="chapterPage">
       <div className="mx-auto flex flex-col max-w-7xl items-center justify-between p-6 lg:px-8">
         <div className="title">
           <h1 className="text-center font-semibold text-2xl uppercase">
@@ -75,7 +75,7 @@ const ChapterPage = () => {
           </h1>
         </div>
       </div>
-      <div className="flex max-w-7xl items-center justify-center p-6 lg:px-8">
+      <div className="mx-auto flex max-w-7xl items-center justify-center p-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {chapters ? renderListChapter(chapters) : <></>}
         </div>
