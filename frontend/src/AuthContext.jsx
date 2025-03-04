@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import axiosInstance from "./axiosInstance";
+import { jwtDecode } from "jwt-decode";
 
 const AuthContext = createContext();
 
@@ -25,29 +26,64 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const logout = () => {
+  const callRefreshToken = async () => {
+    const refresh = localStorage.getItem("refresh");
+    try {
+      const { data: response } = await axiosInstance.post("/token/refresh", {
+        refresh,
+      });
+      const { access } = response;
+      localStorage.setItem("access", access);
+    } catch (err) {
+      console.error(err);
+      throw err;
+    }
+  };
+
+  const logout = async () => {
     setUser(null);
     localStorage.removeItem("access");
     localStorage.removeItem("refresh");
   };
 
-  useEffect(() => {
+  const checkAuth = async () => {
     const access = localStorage.getItem("access");
-    if (access) {
-      axiosInstance
-        .get(`/users/me/`)
-        .then((response) => {
-          setUser(response.data);
-          setUserloading(false);
-        })
-        .catch((error) => {
-          console.error(`Failed to fetch user data: ${error}`);
-          logout();
-          setUserloading(false);
-        });
-    } else {
-      setUserloading(false);
+    if (!access) {
+      logout();
+      return;
     }
+    try {
+      const decoded = jwtDecode(access);
+      const tokenExpiration = decoded.exp;
+      const now = Date.now() / 1000;
+      if (tokenExpiration < now) {
+        await callRefreshToken();
+      }
+    } catch (error) {
+      console.error("Token không hợp lệ hoặc xảy ra lỗi khi decode:", error);
+      logout();
+    }
+  };
+
+  useEffect(() => {
+    const initializeAuth = async () => {
+      try {
+        // Kiểm tra và làm mới token nếu cần trước khi gọi API
+        await checkAuth();
+        const access = localStorage.getItem("access");
+        if (access) {
+          const response = await axiosInstance.get("/users/me/");
+          setUser(response.data);
+        }
+      } catch (error) {
+        console.error("Lỗi khi kiểm tra xác thực:", error);
+        logout();
+      } finally {
+        setUserloading(false);
+      }
+    };
+
+    initializeAuth();
   }, []);
 
   const value = { user, login, logout, userLoading, setUser };
