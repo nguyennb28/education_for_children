@@ -67,7 +67,6 @@ class Lesson(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now_add=True)
 
-
     class Meta:
         ordering = ["lesson_number"]
 
@@ -91,12 +90,15 @@ class Question(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now_add=True)
 
-
     def __str__(self):
         return f"Câu hỏi: {self.question_text[:50]}"
 
     def clean(self):
         super().clean()
+        # Because question is foreign key of answer_options, but when question didn't created -> throw err
+        # And now check if question is not created, don't check answer_options
+        if not self.pk:
+            return
         if self.question_type == "single_choice":
             correct_count = self.answer_options.filter(is_correct=True).count()
             if correct_count != 1:
@@ -114,7 +116,6 @@ class AnswerOption(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now_add=True)
 
-
     def __str__(self):
         return self.answer_text + (" (Đúng)" if self.is_correct else "")
 
@@ -130,7 +131,6 @@ class UserProgress(models.Model):
     end_time = models.DateTimeField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now_add=True)
-
 
     class Meta:
         unique_together = ("user", "lesson")

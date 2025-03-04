@@ -1,6 +1,12 @@
 from rest_framework import viewsets
-from .models import User, Chapter, Lesson
-from .serializers import UserSerializer, ChapterSerializer, LessonSerializer
+from .models import User, Chapter, Lesson, Question, AnswerOption
+from .serializers import (
+    UserSerializer,
+    ChapterSerializer,
+    LessonSerializer,
+    QuestionSerializer,
+    AnswerOptionSerializer,
+)
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.decorators import action
 from rest_framework.response import Response
@@ -30,4 +36,16 @@ class ChapterViewSet(viewsets.ModelViewSet):
 class LessonViewSet(viewsets.ModelViewSet):
     queryset = Lesson.objects.all()
     serializer_class = LessonSerializer
+    permission_classes = [IsAuthenticated]
+
+
+class QuestionViewSet(viewsets.ModelViewSet):
+    queryset = Question.objects.all()
+    serializer_class = QuestionSerializer
+    permission_classes = [IsAuthenticated]
+
+
+class AnswerOptionViewSet(viewsets.ModelViewSet):
+    queryset = AnswerOption.objects.all()
+    serializer_class = AnswerOptionSerializer
     permission_classes = [IsAuthenticated]

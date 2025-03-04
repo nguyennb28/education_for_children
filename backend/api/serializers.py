@@ -60,3 +60,15 @@ class ChapterSerializer(serializers.ModelSerializer):
     class Meta:
         model = Chapter
         fields = ["id", "chapter_number", "name", "description", "lessons"]
+
+
+class QuestionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Question
+        fields = ["id", "lesson", "queston_text", "question_type"]
+
+
+class AnswerOptionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AnswerOption
+        fields = ["id", "question", "answer_text", "is_correct"]
