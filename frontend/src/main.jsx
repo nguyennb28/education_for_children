@@ -10,6 +10,7 @@ import RegisterPage from "./pages/RegisterPage.jsx";
 import ProfilePage from "./pages/ProfilePage.jsx";
 import ChaptersPage from "./pages/ChaptersPage.jsx";
 import ChapterPage from "./pages/ChapterPage.jsx";
+import LessonsPage from "./pages/LessonsPage.jsx";
 import { AuthProvider } from "./AuthContext"; // Import AuthProvider (đường dẫn tùy thuộc vào cấu trúc dự án)
 
 createRoot(document.getElementById("root")).render(
@@ -24,6 +25,7 @@ createRoot(document.getElementById("root")).render(
           <Route path="profile" element={<ProfilePage />} />
           <Route path="chapters" element={<ChaptersPage />} />
           <Route path="chapters/:id" element={<ChapterPage />} />
+          <Route path="lessons/:id" element={<LessonsPage />} />
         </Routes>
         <Footer />
       </Router>

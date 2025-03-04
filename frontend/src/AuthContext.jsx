@@ -29,7 +29,7 @@ export const AuthProvider = ({ children }) => {
   const callRefreshToken = async () => {
     const refresh = localStorage.getItem("refresh");
     try {
-      const { data: response } = await axiosInstance.post("/token/refresh", {
+      const { data: response } = await axiosInstance.post("/token/refresh/", {
         refresh,
       });
       const { access } = response;
