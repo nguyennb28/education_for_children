@@ -41,14 +41,14 @@ const LessonsPage = () => {
           <div className="lesson-video">
             <div className="">
               <iframe
-                width="90%"
+                width="100%"
                 height="315rem"
                 src={lesson.video_url}
                 title="YouTube video player"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                 referrerPolicy="strict-origin-when-cross-origin"
                 allowFullScreen
-                className="rounded-2xl shadow-xl"
+                className="rounded-2xl shadow-xl block"
               ></iframe>
             </div>
           </div>
