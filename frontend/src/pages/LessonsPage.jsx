@@ -42,8 +42,9 @@ const LessonsPage = () => {
    * */
   const renderQA = (items) => {
     return items.map((item, index) => {
-      console.log(typeof index)
-      return <Questions key={item.id} title={"Câu " + (index+1)} question={item} />;
+      return (
+        <Questions key={item.id} title={"Câu " + (index + 1)} question={item} />
+      );
     });
   };
 
