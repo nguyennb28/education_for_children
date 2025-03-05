@@ -3,18 +3,48 @@ import { useParams } from "react-router-dom";
 import { useAuth } from "../AuthContext";
 import { useNavigate } from "react-router-dom";
 import axiosInstance from "../axiosInstance";
+import Questions from "../elements/lessonpage/Questions";
 
 const LessonsPage = () => {
   const { id } = useParams();
   const { user, userLoading } = useAuth();
   const [lesson, setLesson] = useState({});
+  const [questions, setQuestions] = useState([]);
   const navigate = useNavigate();
 
   const getLesson = async () => {
-    const response = await axiosInstance(`/lessons/${id}/`);
-    if (response.status == 200) {
-      setLesson(response.data);
+    try {
+      const response = await axiosInstance(`/lessons/${id}/`);
+      if (response.status == 200) {
+        setLesson(response.data);
+      }
+    } catch (err) {
+      console.error(err);
+      throw err;
     }
+  };
+
+  const getQuestions = async () => {
+    try {
+      const response = await axiosInstance(`/questions/by_lesson/${id}/`);
+      if (response.status == 200) {
+        setQuestions(response.data);
+      }
+    } catch (err) {
+      console.error(err);
+      throw err;
+    }
+  };
+
+  /**
+   *  Render Question
+   *  and AnswerOptions
+   * */
+  const renderQA = (items) => {
+    return items.map((item, index) => {
+      console.log(typeof index)
+      return <Questions key={item.id} title={"Câu " + (index+1)} question={item} />;
+    });
   };
 
   useEffect(() => {
@@ -25,6 +55,7 @@ const LessonsPage = () => {
 
   useEffect(() => {
     getLesson();
+    getQuestions();
   }, []);
 
   return (
@@ -37,7 +68,7 @@ const LessonsPage = () => {
           </h1>
         </div>
         {/* Grid container: video & description */}
-        <div className="grid grid-cols-1 xl:grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 mb-10">
           <div className="lesson-video">
             <div className="">
               <iframe
@@ -56,6 +87,10 @@ const LessonsPage = () => {
             <h2 className="font-semibold text-xl">Mô tả</h2>
             <p>{lesson.description}</p>
           </div>
+        </div>
+        {/* Question */}
+        <div className="questions">
+          {questions ? renderQA(questions) : <></>}
         </div>
       </div>
     </div>
