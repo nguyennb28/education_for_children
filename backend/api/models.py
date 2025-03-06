@@ -126,7 +126,7 @@ class UserProgress(models.Model):
         Lesson, on_delete=models.CASCADE, related_name="user_progress"
     )
     is_completed = models.BooleanField(default=False)
-    quiz_score = models.FloatField(null=True, blank=True)
+    quiz_score = models.FloatField(default=0)
     start_time = models.DateTimeField(auto_now_add=True)
     end_time = models.DateTimeField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)

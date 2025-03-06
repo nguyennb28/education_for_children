@@ -13,6 +13,7 @@ const LessonsPage = () => {
   const [answers, setAnswers] = useState({});
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+  const [userProgress, setUserProgress] = useState({});
   const navigate = useNavigate();
 
   const getLesson = async () => {
@@ -39,6 +40,23 @@ const LessonsPage = () => {
     }
   };
 
+  const getUserProgress = async () => {
+    try {
+      const response = await axiosInstance.get(
+        `/user-progress/by_lesson/?lesson_id=${id}`
+      );
+
+      if (response.status == 200) {
+        setUserProgress(response.data);
+        if (response.data.is_completed || response.data.quiz_score == 100) {
+          setSubmitted(true);
+        }
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   const handleAnswerSubmit = (questionId, answer) => {
     setAnswers((prev) => ({
       ...prev,
@@ -62,12 +80,13 @@ const LessonsPage = () => {
       // Send result to server
       const response = await axiosInstance.post("/user-progress/", {
         lesson: lesson.id,
-        is_completed: true,
+        is_completed: score == 100 ? true : false,
         quiz_score: score,
       });
 
       if (response.status === 201 || response.status === 200) {
         setSubmitted(true);
+        setUserProgress({ ...userProgress, quiz_score: score });
         alert(`Nộp bài thành công! Điểm của bạn: ${score.toFixed(0)}/100`);
       }
     } catch (error) {
@@ -106,6 +125,7 @@ const LessonsPage = () => {
   }, [user, userLoading, navigate]);
 
   useEffect(() => {
+    getUserProgress();
     getLesson();
     getQuestions();
   }, []);
@@ -142,7 +162,7 @@ const LessonsPage = () => {
         </div>
         {/* Question */}
         <div className="questions">
-          {questions ? renderQA(questions) : <></>}
+          {questions.length > 0 && renderQA(questions)}
         </div>
 
         {/* Submit button */}
@@ -170,12 +190,7 @@ const LessonsPage = () => {
               Bài làm đã được nộp thành công!
             </h3>
             <p className="mb-4">
-              Điểm số của bạn:{" "}
-              {(
-                (Object.values(answers).filter((a) => a.isCorrect).length /
-                  questions.length) *
-                100
-              ).toFixed(0)}
+              Điểm số của bạn: {userProgress.quiz_score}
               /100
             </p>
           </div>
