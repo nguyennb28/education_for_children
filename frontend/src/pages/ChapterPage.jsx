@@ -16,7 +16,6 @@ const ChapterPage = () => {
   const getLessonsOfChapter = async () => {
     const { data: response } = await axiosInstance.get(`/chapters/${id}/`);
     if (response) {
-      console.table(response.lessons);
       setLessons(response.lessons);
     }
   };
@@ -24,7 +23,7 @@ const ChapterPage = () => {
   const renderLessons = (items) => {
     return items.map((item) => (
       <CardLink
-        key={item.id}
+        key={item.lesson_number}
         id={item.id}
         url={url}
         title={`Bài ${item.lesson_number} - ${item.title}`}
