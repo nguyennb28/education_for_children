@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const Questions = ({ title, question }) => {
+const Questions = ({ title, question, onAnswerSubmit, disabled = false }) => {
   const alphabet = "abcdefghijklmnopqrstuvwxyz".toUpperCase().split("");
 
   const [selectedAnswer, setSelectedAnswer] = useState(null);
@@ -9,6 +9,9 @@ const Questions = ({ title, question }) => {
   const handleAnswerClick = (answer) => {
     setSelectedAnswer(answer);
     setShowResult(true);
+
+    // Notificate for LessonPage
+    onAnswerSubmit(question.id, answer);
   };
 
   return (
@@ -31,7 +34,7 @@ const Questions = ({ title, question }) => {
                         : "bg-red-200"
                       : "hover:bg-sky-200 hover:shadow-lg"
                   }`}
-                  disabled={showResult}
+                  disabled={showResult || disabled}
                 >
                   {alphabet[index]}. {answer.answer_text}
                 </button>
@@ -48,7 +51,7 @@ const Questions = ({ title, question }) => {
             );
           })}
 
-        {showResult && (
+        {showResult && !disabled && (
           <button
             type="button"
             className="cursor-pointer mt-4 bg-blue-500 text-white px-4 py-2 rounded"

@@ -10,6 +10,9 @@ const LessonsPage = () => {
   const { user, userLoading } = useAuth();
   const [lesson, setLesson] = useState({});
   const [questions, setQuestions] = useState([]);
+  const [answers, setAnswers] = useState({});
+  const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
   const navigate = useNavigate();
 
   const getLesson = async () => {
@@ -36,6 +39,48 @@ const LessonsPage = () => {
     }
   };
 
+  const handleAnswerSubmit = (questionId, answer) => {
+    setAnswers((prev) => ({
+      ...prev,
+      [questionId]: {
+        answerId: answer.id,
+        isCorrect: answer.is_correct,
+      },
+    }));
+  };
+
+  const handleSubmitQuiz = async () => {
+    setSubmitting(true);
+
+    try {
+      const totalQuestions = questions.length;
+      const correctAnswers = Object.values(answers).filter(
+        (a) => a.isCorrect
+      ).length;
+      const score = (correctAnswers / totalQuestions) * 100;
+
+      // Send result to server
+      const response = await axiosInstance.post("/user-progress/", {
+        lesson: lesson.id,
+        is_completed: true,
+        quiz_score: score,
+      });
+
+      if (response.status === 201 || response.status === 200) {
+        setSubmitted(true);
+        alert(`Nộp bài thành công! Điểm của bạn: ${score.toFixed(0)}/100`);
+      }
+    } catch (error) {
+      console.error("Lỗi khi nộp bài:", error);
+      alert("Có lỗi xảy ra khi nộp bài. Vui lòng thử lại.");
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  const allQuestionsAnswered =
+    questions.length > 0 && Object.keys(answers).length === questions.length;
+
   /**
    *  Render Question
    *  and AnswerOptions
@@ -43,7 +88,13 @@ const LessonsPage = () => {
   const renderQA = (items) => {
     return items.map((item, index) => {
       return (
-        <Questions key={item.id} title={"Câu " + (index + 1)} question={item} />
+        <Questions
+          key={item.id}
+          title={"Câu " + (index + 1)}
+          question={item}
+          onAnswerSubmit={handleAnswerSubmit}
+          disabled={submitted}
+        />
       );
     });
   };
@@ -93,6 +144,42 @@ const LessonsPage = () => {
         <div className="questions">
           {questions ? renderQA(questions) : <></>}
         </div>
+
+        {/* Submit button */}
+        {questions.length > 0 && !submitted && (
+          <div className="mt-8 flex justify-center">
+            <button
+              type="button"
+              onClick={handleSubmitQuiz}
+              disabled={!allQuestionsAnswered || submitting}
+              className={`px-6 py-3 rounded-lg text-white font-bold ${
+                allQuestionsAnswered && !submitting
+                  ? "bg-green-600 hover:bg-green-700"
+                  : "bg-gray-400 cursor-not-allowed"
+              }`}
+            >
+              {submitting ? "Đang xử lý..." : "Nộp bài"}
+            </button>
+          </div>
+        )}
+
+        {/* Results after submission */}
+        {submitted && (
+          <div className="mt-8 p-6 bg-green-100 rounded-lg text-center">
+            <h3 className="text-xl font-bold text-green-700 mb-2">
+              Bài làm đã được nộp thành công!
+            </h3>
+            <p className="mb-4">
+              Điểm số của bạn:{" "}
+              {(
+                (Object.values(answers).filter((a) => a.isCorrect).length /
+                  questions.length) *
+                100
+              ).toFixed(0)}
+              /100
+            </p>
+          </div>
+        )}
       </div>
     </div>
   );
