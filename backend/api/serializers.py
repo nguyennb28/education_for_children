@@ -71,6 +71,21 @@ class AnswerOptionSerializer(serializers.ModelSerializer):
 class QuestionSerializer(serializers.ModelSerializer):
 
     answer_options = AnswerOptionSerializer(many=True, read_only=True)
+
     class Meta:
         model = Question
         fields = ["id", "lesson", "question_text", "question_type", "answer_options"]
+
+
+class UserProgressSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = UserProgress
+        fields = [
+            "id",
+            "lesson",
+            "is_completed",
+            "quiz_score",
+            "start_time",
+            "end_time",
+        ]

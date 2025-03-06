@@ -7,6 +7,7 @@ router.register(r"users", views.UserViewSet)
 router.register(r"chapters", views.ChapterViewSet)
 router.register(r"lessons", views.LessonViewSet)
 router.register(r"questions", views.QuestionViewSet)
-router.register(r"answerOptions", views.AnswerOptionViewSet)
+router.register(r"answer-options", views.AnswerOptionViewSet)
+router.register(r"user-progress", views.UserProgressViewSet)
 
 urlpatterns = [path("", include(router.urls))]
