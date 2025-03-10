@@ -34,6 +34,7 @@ export const AuthProvider = ({ children }) => {
       });
       const { access } = response;
       localStorage.setItem("access", access);
+      window.location.reload();
     } catch (err) {
       console.error(err);
       throw err;
