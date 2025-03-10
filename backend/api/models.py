@@ -112,7 +112,7 @@ class AnswerOption(models.Model):
         Question, on_delete=models.CASCADE, related_name="answer_options"
     )
     answer_text = models.CharField(max_length=255)
-    is_correct = models.BooleanField(default=True)
+    is_correct = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now_add=True)
 
