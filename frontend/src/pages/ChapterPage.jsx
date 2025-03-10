@@ -42,25 +42,9 @@ const ChapterPage = () => {
     }
   };
 
-  // const getUserProgressByChapter = async () => {
-  //   try {
-  //     const response = await axiosInstance.get(
-  //       `/user-progress/by_chapter/?chapter_id=${id}`
-  //     );
-
-  //     if (response.status == 200) {
-  //       console.log(response.data);
-  //     }
-  //   } catch (err) {
-  //     console.error(err);
-  //   } finally {
-  //     setUserProgress({});
-  //   }
-  // };
-
-  const checkIsCompleteLessons = async (lessons) => {
+  const checkIsCompleteLessons = async (lessonsProgress) => {
     try {
-      const lesson_query = lessons.reduce((acc, lesson, index) => {
+      const lesson_query = lessonsProgress.reduce((acc, lesson, index) => {
         return index === 0
           ? `?lesson_id=${lesson.id}`
           : `${acc}&lesson_id=${lesson.id}`;
@@ -70,8 +54,39 @@ const ChapterPage = () => {
       );
       if (response.status == 200) {
         setIsCompleteLesson(response.data);
-        // return phòng trường hợp không lấy được isCompleteLesson
-        return response.data;
+        const completedLessonNumbers = response.data
+          .filter((progress) => progress.is_completed)
+          .map((progress) => {
+            // Tìm lesson có id tương ứng với progress.lesson
+            const lesson = lessonsProgress.find(
+              (l) => l.id === progress.lesson
+            );
+            return lesson ? lesson.lesson_number : null;
+          })
+          .filter((num) => num !== null);
+
+        // count lesson exist in progress
+        const maxCompleted =
+          completedLessonNumbers.length > 0
+            ? Math.max(...completedLessonNumbers)
+            : 0;
+
+        console.log(maxCompleted);
+
+        const updateLessons = lessons.map((lesson) => {
+          if (
+            lesson.lesson_number <= maxCompleted ||
+            lesson.lesson_number === maxCompleted + 1
+          ) {
+            return {
+              ...lesson,
+              lock: false,
+            };
+          } else {
+            return { ...lesson, lock: true };
+          }
+        });
+        setLessons(updateLessons);
       }
     } catch (err) {
       console.log(err);
@@ -92,7 +107,7 @@ const ChapterPage = () => {
         id={item.id}
         url={url}
         title={`Bài ${item.lesson_number} - ${item.title}`}
-        lock={false}
+        lock={item.lock}
       />
     ));
   };
@@ -111,6 +126,8 @@ const ChapterPage = () => {
   useEffect(() => {
     if (infoChapter && Array.isArray(infoChapter.lesson)) {
       checkIsCompleteLessons(infoChapter.lesson);
+      // modify lesson
+      // console.log(lessons);
     }
   }, [infoChapter]);
 
