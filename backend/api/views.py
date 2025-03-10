@@ -40,6 +40,27 @@ class LessonViewSet(viewsets.ModelViewSet):
     serializer_class = LessonSerializer
     permission_classes = [IsAuthenticated]
 
+    @action(detail=False, methods=["get"])
+    def by_chapter(self, request):
+        chapter_id = request.query_params.get("chapter_id")
+        if not chapter_id:
+            return Response({"error": "Thiếu chapter_id"})
+
+        lessons = Lesson.objects.filter(chapter_id=chapter_id).order_by("lesson_number")
+        if not lessons:
+            return Response({"detail": "Không tìm thấy lessons"})
+
+        lesson_datas = lessons.values("id", "lesson_number")
+        lesson_list = list(lesson_datas)
+        return Response(
+            {
+                "chapter_id": chapter_id,
+                "lesson": lesson_list,
+                "quantity": lessons.count(),
+            },
+            status=status.HTTP_200_OK,
+        )
+
 
 class QuestionViewSet(viewsets.ModelViewSet):
     queryset = Question.objects.all()
@@ -115,7 +136,21 @@ class UserProgressViewSet(viewsets.ModelViewSet):
             return Response({"error": "Thiếu lesson_id"}, status=400)
         progress = self.get_queryset().filter(lesson_id=lesson_id).first()
         if not progress:
-            return Response({"detail": "Không tìm thấy"}, status=404)
+            return Response({"detail": "Không tìm thấy"}, status=200)
 
         serializer = self.get_serializer(progress)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    @action(detail=False, methods=["get"])
+    def by_lessons(self, request):
+        lesson_ids = request.query_params.getlist(
+            "lesson_id"
+        )  # Sửa .getList thành .getlist
+        if not lesson_ids:
+            return Response(
+                {"error": "Không có dữ liệu"}, status=status.HTTP_400_BAD_REQUEST
+            )
+
+        progress_qs = UserProgress.objects.filter(lesson_id__in=lesson_ids)
+        serializer = UserProgressSerializer(progress_qs, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
